@@ -4,6 +4,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 public class EmployeeDAO {
 
 	private Set<Employee> employeeDatabase = new HashSet<>();
@@ -25,6 +29,11 @@ public class EmployeeDAO {
 			}
 			
 			
+		}
+		if(employee ==null) {
+			ErrorCodes error = new ErrorCodes("404","Employe with an id"+id+"not found!");
+			Response response  = Response.status(Status.NOT_FOUND).entity(error).build();
+			throw new WebApplicationException(response);
 		}
 		return employee;
 	 }
